@@ -1,0 +1,2 @@
+# triviaGame
+trivia crack game
