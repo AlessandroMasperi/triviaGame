@@ -2,6 +2,8 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 
 public class Server {
+
+    private static final int MAX_CLIENTS = 2;
     public static void main(String[] args) 
     {
         Server.connessione();
@@ -16,7 +18,7 @@ public class Server {
 
             int numHost = 0;
 
-            while (numHost < 2) {
+            while (numHost < MAX_CLIENTS) {
                 DatagramPacket receivedPacket = new DatagramPacket(buffer, buffer.length);
                 serverSocket.receive(receivedPacket);
 
@@ -30,7 +32,7 @@ public class Server {
                     numHost++;
                     System.out.println("Client connesso");
                 }
-                
+                buffer = new byte[1024];
             }
             System.out.println("Inizio gioco");
         } catch (Exception e) {
