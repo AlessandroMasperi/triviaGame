@@ -2,16 +2,12 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 
 public class Server {
-
     private static final int MAX_CLIENTS = 2;
-    public static void main(String[] args) 
-    {
-        Server.connessione();
-    }
 
-    public static void connessione()
+    public static void connessione(int port, ClientInGioco clients)
     {
-        try (DatagramSocket serverSocket = new DatagramSocket(12345)) {
+        
+        try (DatagramSocket serverSocket = new DatagramSocket(port)) {
             System.out.println("Server in ascolto");
             
             byte[] buffer = new byte[1024];
@@ -23,7 +19,7 @@ public class Server {
                 serverSocket.receive(receivedPacket);
 
                 String receivedMessage = new String(receivedPacket.getData(), 0, receivedPacket.getLength());
-                if(receivedMessage.equals("Richiesta connessione"))
+                if(receivedMessage.contains("Richiesta connessione - "))
                 {
                     String responseMessage = "Connessione stabilita";
                     byte[] responseData = responseMessage.getBytes();
@@ -31,6 +27,7 @@ public class Server {
                     serverSocket.send(responsePacket);
                     numHost++;
                     System.out.println("Client connesso");
+                    clients.add(new ClientInfo(receivedMessage.replace("Richiesta connessione - ",""), receivedPacket.getAddress().getHostAddress(), receivedPacket.getPort()));
                 }
                 buffer = new byte[1024];
             }

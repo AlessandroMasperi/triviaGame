@@ -7,7 +7,7 @@ public class ClientConnessione {
         try (DatagramSocket clientSocket = new DatagramSocket()) {
             InetAddress serverAddress = InetAddress.getByName(serverIP);
 
-            String message = "Richiesta connessione";
+            String message = "Richiesta connessione - " + name;
             byte[] buffer = message.getBytes();
 
             DatagramPacket packet = new DatagramPacket(buffer, buffer.length, serverAddress, port);
