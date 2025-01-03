@@ -18,6 +18,19 @@ public class Domande
         this.domande = new ArrayList<Domanda>();
     }
 
+    public Domanda getDomanda(int index)
+    {
+        if(index > -1 && index < domande.size())
+            return domande.get(index);
+
+        return null;
+    }
+
+    public int size()
+    {
+        return domande.size();
+    }
+
     //aggiungi
     /**
      * Aggiunge una domanda alla lista di domande
@@ -40,16 +53,18 @@ public class Domande
     }
 
     //fai la conversione da csv
-    public void fromCSV(String filePath) throws IOException
+    public static Domande fromCSV(String filePath) throws IOException
     {
+        Domande domande = new Domande();
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 if (!line.trim().isEmpty()) { // Evita righe vuote
                     Domanda domanda = Domanda.fromCSV(line);
-                    this.add(domanda);
+                    domande.add(domanda);
                 }
             }
         }
+        return domande;
     }
 }

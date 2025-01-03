@@ -46,20 +46,21 @@ public class Domanda
     }
 
     //fai la conversione da csv
-    public Domanda fromCSV(String contenuto)
+    public static Domanda fromCSV(String contenuto)
     {
         String[] campi = contenuto.split(";");
         //controlla se la lunghezza dei campi è corretta
+        Domanda d = new Domanda();
         if (campi.length == 6) {
-            this.categoria = campi[0];
-            this.domanda = campi[1];
-            this.rispostaCorretta = campi[2];
-            this.risposta2 = campi[3];
-            this.risposta3 = campi[4];
-            this.risposta4 = campi[5];
-            return new Domanda(categoria, domanda, rispostaCorretta, risposta2, risposta3, risposta4);
+            d.setCategoria(campi[0]);
+            d.setDomanda(campi[1]);
+            d.setRispostaCorretta(campi[2]);
+            d.setRisposta2(campi[3]);
+            d.setRisposta3(campi[4]);
+            d.setRisposta4(campi[5]);
+            return d;
         } else {
-            throw new IllegalArgumentException("Il contenuto CSV non è valido: " + contenuto);
+            return null;
         }
     }
 
