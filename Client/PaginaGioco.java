@@ -30,7 +30,6 @@ public class PaginaGioco {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridLayout(3, 2, 10, 10));
 
-        //prendere le categorrie direttamente dal file
         String[] categorie = {"Scienze", "Geografia", "Storia", "Arte", "Sport", "Intrattenimento"};
         for (String categoria : categorie) {
             JButton button = new JButton(categoria);

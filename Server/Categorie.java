@@ -29,4 +29,8 @@ public class Categorie
             }
         }
     }
+
+    public Domande getDomande(String categoria) {
+        return domandeDiviseCategoria.get(categoria);
+    }
 }

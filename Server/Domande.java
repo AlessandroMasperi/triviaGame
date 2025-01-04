@@ -67,4 +67,8 @@ public class Domande
         }
         return domande;
     }
+
+    public Domanda get(int i) {
+        return this.domande.get(i);
+    }
 }

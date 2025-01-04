@@ -43,4 +43,12 @@ public class ClientInGioco
             }
         }
     }
+
+    public int size() {
+        return this.clients.size();
+    }
+
+    public ClientInfo get(int i) {
+        return this.clients.get(i);
+    }
 }

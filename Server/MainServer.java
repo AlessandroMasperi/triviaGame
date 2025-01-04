@@ -2,7 +2,10 @@ import java.io.IOException;
 import java.net.DatagramSocket;
 
 public class MainServer {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException 
+    {
+        Categorie cat = new Categorie();
+
         DatagramSocket serverSocket = new DatagramSocket(12345);
         
         ClientInGioco clients = new ClientInGioco();
@@ -10,8 +13,9 @@ public class MainServer {
 
         clients.scegliPrimo(serverSocket);
 
-        gestioneDomande gestore = new gestioneDomande(serverSocket, clients);
+        gestioneDomande gestore = new gestioneDomande(serverSocket, clients, cat);
 
-        while (gestore.genera());
+        //fino quando 1 utente non esaurisce tutti i pulsanti
+        gestore.genera();
     }
 }

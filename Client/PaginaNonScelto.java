@@ -10,5 +10,7 @@ public class PaginaNonScelto {
         frame.add(label);
 
         frame.setVisible(true);
+
+        //manca consegna domanda anche a lui
     }
 }
