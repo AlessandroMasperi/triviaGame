@@ -9,5 +9,9 @@ public class MainServer {
         Server.connessione(serverSocket, clients);
 
         clients.scegliPrimo(serverSocket);
+
+        gestioneDomande gestore = new gestioneDomande(serverSocket, clients);
+
+        while (gestore.genera());
     }
 }
