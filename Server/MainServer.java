@@ -1,7 +1,13 @@
+import java.io.IOException;
+import java.net.DatagramSocket;
+
 public class MainServer {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        DatagramSocket serverSocket = new DatagramSocket(12345);
+        
         ClientInGioco clients = new ClientInGioco();
-        Server.connessione(12345, clients);
-        int a = 0;
+        Server.connessione(serverSocket, clients);
+
+        clients.scegliPrimo(serverSocket);
     }
 }

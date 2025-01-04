@@ -1,20 +1,23 @@
+import java.net.DatagramSocket;
 import javax.swing.*;
 
 public class PaginaAttesa {
 
     private JTextArea logArea;
 
-    public PaginaAttesa() {
-
-        JFrame frame = new JFrame("Pagina successiva");
+    public PaginaAttesa(DatagramSocket clientSocket) {
+        JFrame frame = new JFrame("Pagina di Attesa");
         frame.setSize(400, 300);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         logArea = new JTextArea();
         logArea.setEditable(false);
-        logArea.setText("Pagina di attesa: attendi che tutti i client si siano connessi.\r\nUna volta fatto verrrai mandato automaticamente alla pagina del gioco!");
+        logArea.setText("Pagina di attesa: attendi che tutti i client si siano connessi.\nUna volta fatto, verrai mandato automaticamente alla pagina del gioco!");
         frame.add(new JScrollPane(logArea));
 
-        // Mostra la finestra
         frame.setVisible(true);
+
+        // Avvia il thread di gestione
+        new GestioneMessaggioInizioPartita(frame, clientSocket).start();
     }
 }

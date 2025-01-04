@@ -3,23 +3,28 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 public class ClientConnessione {
-    public static String connessioneServer(String name, String serverIP, int port) {
-        try (DatagramSocket clientSocket = new DatagramSocket()) {
+
+    public static DatagramSocket connessioneServer(String name, String serverIP, int port) throws Exception 
+    {
+        DatagramSocket clientSocket = new DatagramSocket();
+        try {
             InetAddress serverAddress = InetAddress.getByName(serverIP);
 
             String message = "Richiesta connessione - " + name;
             byte[] buffer = message.getBytes();
-
             DatagramPacket packet = new DatagramPacket(buffer, buffer.length, serverAddress, port);
             clientSocket.send(packet);
 
             byte[] responseBuffer = new byte[1024];
             DatagramPacket responsePacket = new DatagramPacket(responseBuffer, responseBuffer.length);
             clientSocket.receive(responsePacket);
+            System.out.println(responsePacket.getData());
 
-            return new String(responsePacket.getData(), 0, responsePacket.getLength());
+            return clientSocket;
+
         } catch (Exception ex) {
-            return "Errore durante la connessione: " + ex.getMessage();
+            clientSocket.close();
+            throw new Exception("Errore durante la connessione: " + ex.getMessage());
         }
     }
 }
