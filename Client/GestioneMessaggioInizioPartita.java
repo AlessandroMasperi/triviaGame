@@ -5,10 +5,14 @@ import javax.swing.*;
 public class GestioneMessaggioInizioPartita extends Thread {
     private final JFrame frame;
     private final DatagramSocket clientSocket;
+    private final String serverIp;
+    private final int portServer;
 
-    public GestioneMessaggioInizioPartita(JFrame frame, DatagramSocket clientSocket) {
+    public GestioneMessaggioInizioPartita(JFrame frame, DatagramSocket clientSocket, String serverIp, int portServer) {
         this.frame = frame;
         this.clientSocket = clientSocket;
+        this.serverIp = serverIp;
+        this.portServer = portServer;
     }
 
     @Override
@@ -17,18 +21,16 @@ public class GestioneMessaggioInizioPartita extends Thread {
             byte[] responseBuffer = new byte[1024];
             DatagramPacket responsePacket = new DatagramPacket(responseBuffer, responseBuffer.length);
 
-            // Attende la risposta dal server
             clientSocket.receive(responsePacket);
             String response = new String(responsePacket.getData(), 0, responsePacket.getLength());
 
             // Chiude la finestra di attesa
             SwingUtilities.invokeLater(() -> frame.dispose());
 
-            // Mostra la finestra appropriata
-            if ("si".equalsIgnoreCase(response)) {
-                SwingUtilities.invokeLater(PaginaGioco::new);
+            if (response.equals("si")) {
+                new PaginaGioco(clientSocket, serverIp, portServer);
             } else {
-                SwingUtilities.invokeLater(PaginaNonScelto::new);
+                new PaginaNonScelto();
             }
 
         } catch (Exception e) {

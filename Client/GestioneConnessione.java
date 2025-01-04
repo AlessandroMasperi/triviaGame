@@ -33,14 +33,13 @@ public class GestioneConnessione implements ActionListener {
             int port = Integer.parseInt(portText);
             logArea.append("Connessione al server...\n");
 
-            // Effettua la connessione e ottieni la socket
             DatagramSocket clientSocket = ClientConnessione.connessioneServer(name, serverIP, port);
 
             logArea.append("Connessione riuscita!\n");
 
             // Passa alla pagina di attesa
             frame.dispose();
-            SwingUtilities.invokeLater(() -> new PaginaAttesa(clientSocket));
+            SwingUtilities.invokeLater(() -> new PaginaAttesa(clientSocket, serverIP, port));
 
         } catch (NumberFormatException ex) {
             logArea.append("Il numero di porta deve essere un intero.\n");
