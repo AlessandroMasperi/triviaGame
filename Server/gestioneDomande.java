@@ -113,7 +113,7 @@ public class gestioneDomande {
                 }
             }
     
-            return !risposta;
+            return risposta;
     
         } catch (Exception e) {
             System.err.println("Errore durante la gestione della risposta: " + e.getMessage());
@@ -133,6 +133,25 @@ public class gestioneDomande {
         } catch (IOException e) {
             System.err.println("Errore durante l'attesa di una risposta: " + e.getMessage());
             return null;
+        }
+    }
+
+    public void mandaMessaggioATutti() {
+        try {
+            for (int i = 0; i < clients.size(); i++) 
+            {
+                ClientInfo client = clients.get(i);
+                byte[] buffer = "tutti".getBytes();
+                InetAddress clientAddress = InetAddress.getByName(client.getAddress());
+                int clientPort = client.getPort();
+    
+                DatagramPacket packet = new DatagramPacket(buffer, buffer.length, clientAddress, clientPort);
+                serverSocket.send(packet);
+            }
+
+        } catch (Exception e) {
+            System.err.println("Errore durante l'invio del messaggio a tutti i client: " + e.getMessage());
+            e.printStackTrace();
         }
     }
     

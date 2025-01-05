@@ -4,10 +4,7 @@ import java.net.DatagramSocket;
 
 public class PaginaNonScelto {
 
-    private DatagramSocket clientSocket;
-
     public PaginaNonScelto(DatagramSocket clientSocket, String serverIP, int serverPort) {
-        this.clientSocket = clientSocket;
 
         JFrame frame = new JFrame("Gioco Trivia - " + clientSocket.getLocalPort());
         frame.setSize(400, 300);
@@ -29,6 +26,11 @@ public class PaginaNonScelto {
                 if (messaggio.equals("avanti")) {
                     frame.dispose();
                     new PaginaDomanda(clientSocket, serverIP, serverPort);
+                }
+                else if(messaggio.equals("tutti"))
+                {
+                    frame.dispose();
+                    new PaginaAttesa(clientSocket, serverIP, serverPort);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

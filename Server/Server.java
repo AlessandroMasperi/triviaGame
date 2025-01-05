@@ -3,9 +3,8 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 
 public class Server {
-    private static final int MAX_CLIENTS = 2;
 
-    public static void connessione(DatagramSocket serverSocket, ClientInGioco clients) throws IOException
+    public static void connessione(DatagramSocket serverSocket, ClientInGioco clients, int MAX_CLIENTS) throws IOException
     {
         System.out.println("Server in ascolto");
         

@@ -10,29 +10,34 @@ public class GestioneCorrezione extends Thread {
     private String serverIP;
     private int serverPort;
 
-    public GestioneCorrezione(DatagramSocket clientSocket, String serverIP, int portServer) 
+    public GestioneCorrezione(DatagramSocket clientSocket, String serverIP, int portServer, JFrame frame1) 
     {
         this.clientSocket = clientSocket;
         this.frame = new JFrame("Gioco Trivia - " + clientSocket.getLocalPort());
         this.serverIP= serverIP;
         this.serverPort = portServer;
+
+        gestisciRisposta(frame1);
     }
 
-    public void gestisciRisposta() 
+    public void gestisciRisposta(JFrame frame1)
     {
         try {
             DatagramPacket packet = attendiRisposta();
             String risposta = new String(packet.getData(), 0, packet.getLength());
 
+            frame1.dispose();
             if (risposta.equals("indovinato"))
                 vaiAllaPaginaSceltaCategoria();
             else if (risposta.equals("sbagliato") || risposta.equals("rispostaIndovinata"))
-                vaiAllaPaginaAttesa();
+                vaiAllaPaginaNonScelto();
 
         } catch (Exception e) {
             System.err.println("Errore durante la gestione della risposta: " + e.getMessage());
             e.printStackTrace();
         }
+
+        //manca punteggio, manca gestione errore primo
     }
 
     private DatagramPacket attendiRisposta() 
@@ -54,9 +59,9 @@ public class GestioneCorrezione extends Thread {
         new PaginaGioco(clientSocket, serverIP, serverPort);
     }
 
-    private void vaiAllaPaginaAttesa() 
+    private void vaiAllaPaginaNonScelto() 
     {
         frame.dispose();
-        new PaginaAttesa(clientSocket, serverIP, serverPort);
+        new PaginaNonScelto(clientSocket, serverIP, serverPort);
     }
 }

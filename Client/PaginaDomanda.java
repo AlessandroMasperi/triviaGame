@@ -49,7 +49,6 @@ public class PaginaDomanda {
                 rispostaButton.addActionListener(e -> {
                     String rispostaSelezionata = ((JButton) e.getSource()).getText();
                     inviaRisposta(clientSocket, rispostaSelezionata, rispostaCorretta, serverIP, serverPort);
-                    frame.dispose();
                 });
             }
 
@@ -59,7 +58,7 @@ public class PaginaDomanda {
         }
 
         new Thread(() -> {
-            new GestioneCorrezione(clientSocket, serverIP, serverPort).gestisciRisposta();
+            new GestioneCorrezione(clientSocket, serverIP, serverPort, frame);
         }).start();
 
         frame.setVisible(true);
