@@ -38,7 +38,6 @@ public class PaginaGioco {
             button.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    button.setEnabled(false);
                     inviaCategoria(categoria);
                     frame.dispose();
                     new PaginaDomanda(clientSocket);

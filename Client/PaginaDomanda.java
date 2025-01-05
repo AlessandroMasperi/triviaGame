@@ -34,6 +34,8 @@ public class PaginaDomanda {
 
             domandaArea.setText(parti[1]); //domanda
 
+            String rispostaCorretta = parti[2];
+
             ArrayList<String> risposte = new ArrayList<String>();
             for (int i = 2; i < parti.length; i++)
                 risposte.add(parti[i].trim());
@@ -45,7 +47,7 @@ public class PaginaDomanda {
 
                 rispostaButton.addActionListener(e -> {
                     String rispostaSelezionata = ((JButton) e.getSource()).getText();
-                    inviaRisposta(clientSocket, rispostaSelezionata);
+                    inviaRisposta(clientSocket, rispostaSelezionata, rispostaCorretta);
                     frame.dispose();
                     // Manca passaggio alla pagina successiva
                 });
@@ -59,12 +61,17 @@ public class PaginaDomanda {
         frame.setVisible(true);
     }
 
-    private void inviaRisposta(DatagramSocket clientSocket, String risposta) {
+    private void inviaRisposta(DatagramSocket clientSocket, String risposta, String rispostaCorretta) {
         try {
-            byte[] rispostaBytes = risposta.getBytes();
+            String messaggio;
+            if(risposta.equals(rispostaCorretta))
+                messaggio = "true";
+            else
+                messaggio = "false";
+                
+            byte[] rispostaBytes = messaggio.getBytes();
             DatagramPacket rispostaPacket = new DatagramPacket(rispostaBytes, rispostaBytes.length, clientSocket.getInetAddress(), clientSocket.getPort());
             clientSocket.send(rispostaPacket);
-            //manca gestione della risposta lato server
         } catch (Exception e) {
             e.printStackTrace();
         }

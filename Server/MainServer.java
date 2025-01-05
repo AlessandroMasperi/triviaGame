@@ -15,7 +15,18 @@ public class MainServer {
 
         gestioneDomande gestore = new gestioneDomande(serverSocket, clients, cat);
 
-        //fino quando 1 utente non esaurisce tutti i pulsanti
-        gestore.genera();
+        boolean giocoInCorso = true;
+
+        while (giocoInCorso) {
+            gestore.genera();
+
+            gestore.gestisciRisposta();
+            
+            while(gestore.gestisciRisposta());
+
+        }
+
+        System.out.println("Gioco terminato.");
+        serverSocket.close();
     }
 }
