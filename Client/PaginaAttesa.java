@@ -6,7 +6,7 @@ public class PaginaAttesa {
     private JTextArea logArea;
 
     public PaginaAttesa(DatagramSocket clientSocket, String serverIP, int portServer) {
-        JFrame frame = new JFrame("Pagina di Attesa");
+        JFrame frame = new JFrame("Pagina di Attesa - " + clientSocket.getLocalPort());
         frame.setSize(400, 300);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

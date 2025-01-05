@@ -2,11 +2,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class PaginaDomanda {
 
     public PaginaDomanda(DatagramSocket clientSocket) {
-        JFrame frame = new JFrame("Domanda Trivia");
+        JFrame frame = new JFrame("Domanda Trivia - " + clientSocket.getLocalPort());
         frame.setSize(600, 400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
@@ -32,15 +34,20 @@ public class PaginaDomanda {
 
             domandaArea.setText(parti[1]); //domanda
 
-            for (int i = 2; i < parti.length; i++) {
-                JButton rispostaButton = new JButton(parti[i].trim());
+            ArrayList<String> risposte = new ArrayList<String>();
+            for (int i = 2; i < parti.length; i++)
+                risposte.add(parti[i].trim());
+            Collections.shuffle(risposte);
+
+            for (String risposta : risposte) {
+                JButton rispostaButton = new JButton(risposta);
                 rispostaPanel.add(rispostaButton);
 
                 rispostaButton.addActionListener(e -> {
                     String rispostaSelezionata = ((JButton) e.getSource()).getText();
                     inviaRisposta(clientSocket, rispostaSelezionata);
                     frame.dispose();
-                    //manca passaggio pagina successiva
+                    // Manca passaggio alla pagina successiva
                 });
             }
 

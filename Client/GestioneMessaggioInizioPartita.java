@@ -30,7 +30,7 @@ public class GestioneMessaggioInizioPartita extends Thread {
             if (response.equals("si")) {
                 new PaginaGioco(clientSocket, serverIp, portServer);
             } else {
-                new PaginaNonScelto();
+                new PaginaNonScelto(clientSocket);
             }
 
         } catch (Exception e) {

@@ -19,7 +19,7 @@ public class PaginaGioco {
         this.serverAddress = InetAddress.getByName(serverAddress);
         this.serverPort = serverPort;
 
-        JFrame frame = new JFrame("Gioco Trivia");
+        JFrame frame = new JFrame("Gioco Trivia - " + clientSocket.getLocalPort());
         frame.setSize(400, 300);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());

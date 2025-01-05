@@ -20,6 +20,8 @@ public class gestioneDomande {
             DatagramPacket receivedPacket = new DatagramPacket(buffer, buffer.length);
             serverSocket.receive(receivedPacket);
 
+            mandaAvanti(receivedPacket.getAddress(), receivedPacket.getPort());
+
             return new String(receivedPacket.getData(), 0, receivedPacket.getLength());
 
         } catch (Exception e) {
@@ -28,11 +30,32 @@ public class gestioneDomande {
         }
     }
 
+    public void mandaAvanti(InetAddress clientEscluso, int portaEsclusa) {
+        try {
+            for (int i = 0; i< clients.size(); i++) 
+            {
+                ClientInfo client = clients.get(i);
+                InetAddress clientAddress = InetAddress.getByName(client.getAddress());
+                int clientPort = client.getPort();
+    
+                if (!clientEscluso.equals(clientAddress) || clientPort != portaEsclusa) {
+                    String messaggio = "avanti";
+                    byte[] buffer = messaggio.getBytes();
+                    DatagramPacket packet = new DatagramPacket(buffer, buffer.length, clientAddress, clientPort);
+                    serverSocket.send(packet);
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Errore nell'invio del messaggio ai client: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }    
+
     public boolean genera() {
         try {
-            String messaggio = gestisciMessaggio();
-            Domande domande = catDomande.getDomande(messaggio);
-            Domanda domandaSelezionata = domande.get((int) Math.random()*domande.size());
+            String categoria = gestisciMessaggio();
+            Domande domande = catDomande.getDomande(categoria);
+            Domanda domandaSelezionata = domande.get((int) (Math.random()*domande.size()));
             String domanda = domandaSelezionata.toCSV();
 
             for (int i = 0; i < clients.size(); i++) 
@@ -53,5 +76,10 @@ public class gestioneDomande {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public int gestisciRisposta()
+    {
+        return 0;
     }
 }
