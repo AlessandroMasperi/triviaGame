@@ -19,8 +19,6 @@ public class MainServer {
 
         while (giocoInCorso) {
             gestore.genera();
-
-            gestore.gestisciRisposta();
             
             while(gestore.gestisciRisposta());
 

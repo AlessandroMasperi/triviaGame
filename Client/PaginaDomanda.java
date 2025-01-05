@@ -2,12 +2,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class PaginaDomanda {
 
-    public PaginaDomanda(DatagramSocket clientSocket) {
+    public PaginaDomanda(DatagramSocket clientSocket,  String serverIP, int serverPort) {
         JFrame frame = new JFrame("Domanda Trivia - " + clientSocket.getLocalPort());
         frame.setSize(600, 400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -47,9 +48,8 @@ public class PaginaDomanda {
 
                 rispostaButton.addActionListener(e -> {
                     String rispostaSelezionata = ((JButton) e.getSource()).getText();
-                    inviaRisposta(clientSocket, rispostaSelezionata, rispostaCorretta);
+                    inviaRisposta(clientSocket, rispostaSelezionata, rispostaCorretta, serverIP, serverPort);
                     frame.dispose();
-                    // Manca passaggio alla pagina successiva
                 });
             }
 
@@ -58,19 +58,24 @@ public class PaginaDomanda {
             JOptionPane.showMessageDialog(frame, "Errore durante la ricezione della domanda.");
         }
 
+        new Thread(() -> {
+            new GestioneCorrezione(clientSocket, serverIP, serverPort).gestisciRisposta();
+        }).start();
+
         frame.setVisible(true);
     }
 
-    private void inviaRisposta(DatagramSocket clientSocket, String risposta, String rispostaCorretta) {
+    private void inviaRisposta(DatagramSocket clientSocket, String risposta, String rispostaCorretta, String serverIP, int serverPort) {
         try {
             String messaggio;
-            if(risposta.equals(rispostaCorretta))
+            if (risposta.equals(rispostaCorretta))
                 messaggio = "true";
             else
                 messaggio = "false";
-                
+
             byte[] rispostaBytes = messaggio.getBytes();
-            DatagramPacket rispostaPacket = new DatagramPacket(rispostaBytes, rispostaBytes.length, clientSocket.getInetAddress(), clientSocket.getPort());
+            
+            DatagramPacket rispostaPacket = new DatagramPacket(rispostaBytes, rispostaBytes.length, InetAddress.getByName(serverIP), serverPort);
             clientSocket.send(rispostaPacket);
         } catch (Exception e) {
             e.printStackTrace();

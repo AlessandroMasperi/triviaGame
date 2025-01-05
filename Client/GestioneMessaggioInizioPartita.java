@@ -24,13 +24,12 @@ public class GestioneMessaggioInizioPartita extends Thread {
             clientSocket.receive(responsePacket);
             String response = new String(responsePacket.getData(), 0, responsePacket.getLength());
 
-            // Chiude la finestra di attesa
-            SwingUtilities.invokeLater(() -> frame.dispose());
+            frame.dispose();
 
             if (response.equals("si")) {
                 new PaginaGioco(clientSocket, serverIp, portServer);
             } else {
-                new PaginaNonScelto(clientSocket);
+                new PaginaNonScelto(clientSocket, serverIp, portServer);
             }
 
         } catch (Exception e) {

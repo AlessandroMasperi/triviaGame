@@ -40,7 +40,7 @@ public class PaginaGioco {
                 public void actionPerformed(ActionEvent e) {
                     inviaCategoria(categoria);
                     frame.dispose();
-                    new PaginaDomanda(clientSocket);
+                    new PaginaDomanda(clientSocket, serverAddress, serverPort);
                 }
             });
         }

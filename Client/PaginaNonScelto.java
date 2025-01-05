@@ -6,7 +6,7 @@ public class PaginaNonScelto {
 
     private DatagramSocket clientSocket;
 
-    public PaginaNonScelto(DatagramSocket clientSocket) {
+    public PaginaNonScelto(DatagramSocket clientSocket, String serverIP, int serverPort) {
         this.clientSocket = clientSocket;
 
         JFrame frame = new JFrame("Gioco Trivia - " + clientSocket.getLocalPort());
@@ -28,7 +28,7 @@ public class PaginaNonScelto {
                 
                 if (messaggio.equals("avanti")) {
                     frame.dispose();
-                    new PaginaDomanda(clientSocket);
+                    new PaginaDomanda(clientSocket, serverIP, serverPort);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
