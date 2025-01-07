@@ -32,6 +32,12 @@ public class PaginaNonScelto {
                     frame.dispose();
                     new PaginaAttesa(clientSocket, serverIP, serverPort);
                 }
+                else if(messaggio.equals("rispostaIndovinata"))
+                {
+                    frame.dispose();
+                    new PaginaNonScelto(clientSocket, serverIP, serverPort);
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
