@@ -36,8 +36,6 @@ public class GestioneCorrezione extends Thread {
             System.err.println("Errore durante la gestione della risposta: " + e.getMessage());
             e.printStackTrace();
         }
-
-        //manca punteggio, manca gestione errore primo
     }
 
     private DatagramPacket attendiRisposta() 

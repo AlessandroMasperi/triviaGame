@@ -89,11 +89,15 @@ public class gestioneDomande {
             InetAddress clientAddress = packet.getAddress();
             int clientPort = packet.getPort();
 
+            ClientInfo c = clients.get(clientAddress, clientPort);
+
             String messaggio;
             if (risposta) {
                 messaggio = "indovinato";
+                c.incrementa();
             } else {
                 messaggio = "sbagliato";
+                c.decrementa();
             }
             byte[] buffer = messaggio.getBytes();
             DatagramPacket rispostaPacket = new DatagramPacket(buffer, buffer.length, clientAddress, clientPort);

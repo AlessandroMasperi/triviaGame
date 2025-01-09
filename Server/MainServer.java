@@ -16,9 +16,7 @@ public class MainServer {
 
         gestioneDomande gestore = new gestioneDomande(serverSocket, clients, cat);
 
-        boolean giocoInCorso = true;
-
-        while (giocoInCorso) {
+        while (clients.controllaFine()) {
             gestore.genera();
             int i = 0;
 
@@ -33,9 +31,12 @@ public class MainServer {
                 gestore.mandaMessaggioATutti();
                 clients.scegliPrimo(serverSocket);
             }
+
+            clients.controllaRound();
         }
 
         System.out.println("Gioco terminato.");
+        clients.StampaClassifica();
         serverSocket.close();
     }
 }
